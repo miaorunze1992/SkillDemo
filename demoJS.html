@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <style>
+        .hovered {
+            background-color: red !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-5">
+        <table id="myTable" class="table" border="1">
+            <tbody>
+                <tr>
+                    <td rowspan="2">1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>11</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>22</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>11</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>22</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td rowspan="3">3</td>
+                    <td rowspan="2">3</td>
+                    <td>11</td>
+                    <td>11</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>22</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td>55</td>
+                    <td>5</td>
+                    <td>22</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td rowspan="4">3</td>
+                    <td rowspan="2">3</td>
+                    <td>11</td>
+                    <td>11</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>22</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>22</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td style="background-color: green;">4</td>
+                    <td>5</td>
+                    <td>22</td>
+                    <td>11</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        var groupCount = 0;
+        var rows = document.querySelectorAll('#myTable tbody tr');
+        rows.forEach(function (row) {
+            var td = row.children[0];
+            if (td.hasAttribute('rowspan')) {
+                var rowspan = parseInt(td.getAttribute('rowspan'));
+                row.setAttribute('data-group', groupCount);
+                var nextRow = row.nextElementSibling;
+                for (var i = 1; i < rowspan; i++) {
+                    nextRow.setAttribute('data-group', groupCount);
+                    nextRow = nextRow.nextElementSibling;
+                }
+                groupCount++;
+            }
+        });
+    
+        rows.forEach(function (row) {
+            row.addEventListener('mouseover', function () {
+                var group = this.getAttribute('data-group');
+                var groupedRows = document.querySelectorAll('tr[data-group="' + group + '"]');
+                groupedRows.forEach(function (groupedRow) {
+                    groupedRow.classList.add('hovered');
+                });
+            });
+    
+            row.addEventListener('mouseout', function () {
+                var group = this.getAttribute('data-group');
+                var groupedRows = document.querySelectorAll('tr[data-group="' + group + '"]');
+                groupedRows.forEach(function (groupedRow) {
+                    groupedRow.classList.remove('hovered');
+                });
+            });
+        });
+    </script>
+    
+
+</body>
+
+</html>
